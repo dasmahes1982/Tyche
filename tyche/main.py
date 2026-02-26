@@ -6,12 +6,12 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from modules.burp_parser import parse_burpsuite_request
-from modules.toml_converter import TOMLConverter
-from modules.profile_generator import generate_profile_from_request, HTTPXProfileGenerator
-from modules.malleable_parser import parse_malleable_profile
-from modules.profile_linter import lint_profile_file, Severity
-from modules.rewrite_generator import generate_rewrite_rules
+from tyche.modules.burp_parser import parse_burpsuite_request
+from tyche.modules.toml_converter import TOMLConverter
+from tyche.modules.profile_generator import generate_profile_from_request, HTTPXProfileGenerator
+from tyche.modules.malleable_parser import parse_malleable_profile
+from tyche.modules.profile_linter import lint_profile_file, Severity
+from tyche.modules.rewrite_generator import generate_rewrite_rules
 
 console = Console()
 err_console = Console(stderr=True)
@@ -268,7 +268,7 @@ def handle_lint_command(args: argparse.Namespace) -> int:
             
             message = issue.message
             if issue.suggestion:
-                message += f"\n[dim]--> {issue.suggestion}[/dim]"
+                message += f"\n[dim]→ {issue.suggestion}[/dim]"
             
             table.add_row(severity_text, issue.location, message)
         

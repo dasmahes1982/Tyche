@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Optional
 from dataclasses import dataclass
 
-from modules.profile_generator import (
+from tyche.modules.profile_generator import (
     HTTPXProfile,
     HTTPXEndpoint,
     HTTPXClient,
@@ -168,9 +168,26 @@ class MalleableC2Parser:
         return parameters
 
     def _parse_message_location(self, content: str) -> tuple[str, str]:
+        # Priority order: output > metadata > id
+        # output block is where actual message data goes (especially for POST)
+        output_block = self._extract_nested_block(content, 'output')
         metadata_block = self._extract_nested_block(content, 'metadata')
         id_block = self._extract_nested_block(content, 'id')
 
+        # Check output block first (for POST requests)
+        if output_block:
+            if 'print' in output_block:
+                # print means the data goes in the body
+                return ("body", "")
+            elif 'header "Cookie"' in output_block:
+                cookie_name = self._extract_cookie_name(output_block)
+                return ("cookie", cookie_name)
+            elif 'parameter' in output_block:
+                param_match = re.search(r'parameter\s+"([^"]+)"', output_block)
+                if param_match:
+                    return ("parameter", param_match.group(1))
+
+        # Check metadata block (for GET requests)
         if metadata_block:
             if 'header "Cookie"' in metadata_block:
                 cookie_name = self._extract_cookie_name(metadata_block)
@@ -181,11 +198,13 @@ class MalleableC2Parser:
                     return ("parameter", param_match.group(1))
             return ("body", "")
 
+        # Fallback to id block (less common)
         if id_block:
             param_match = re.search(r'parameter\s+"([^"]+)"', id_block)
             if param_match:
                 return ("parameter", param_match.group(1))
 
+        # Default fallback
         return ("cookie", "__session")
 
     def _extract_cookie_name(self, metadata_content: str) -> str:

@@ -2,19 +2,18 @@
 
 Tyche is a Mythic HTTPX Profile Generator used to create Malleable C2 Profiles from Burpsuite requests, TOML files, and Cobalt Strike Malleable C2 profiles.
 
+![JQuery 3.3.14 Example Under Wireshark](./images/JQuery3.3.14Example.png)
+
 ## Features
 
 - Convert Burpsuite saved HTTP requests into Mythic C2 HTTPX profiles
 - Convert Cobalt Strike Malleable C2 profiles to HTTPX JSON format
 - Convert TOML profile files to JSON format
+- Lint profiles to ensure that they are valid
 
 ## Installation
 
 ```bash
-# Local
-uv pip install -e .
-
-# Global
 pipx install git+https://github.com/Whispergate/Tyche.git
 ```
 
@@ -168,7 +167,6 @@ The tool automatically:
 - Sets up default transforms (base64url encoding)
 - Configures default server response headers
 
-# Contributors
-## Example Files
+## Contributors
 - [jquery-c2.3.14.profile](https://github.com/threatexpress/malleable-c2/blob/master/jquery-c2.3.14.profile)
 - [Rest of the examples](https://github.com/MythicC2Profiles/httpx/blob/main/documentation-c2/httpx/examples/_index.md)

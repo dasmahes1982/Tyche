@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import Any, Optional
 from dataclasses import dataclass
 
-from tyche_cli.modules.burp_parser import HTTPRequest
+from tyche.modules.burp_parser import HTTPRequest
 
 
 @dataclass
@@ -32,17 +32,27 @@ class HTTPXClient:
         else:
             result["parameters"] = None
 
+        # Message field is required by Mythic, always include it
         if self.message:
             result["message"] = {
                 "location": self.message.location,
                 "name": self.message.name
             }
+        else:
+            # Default to cookie location if message is somehow missing
+            result["message"] = {
+                "location": "cookie",
+                "name": "__session"
+            }
 
+        # Transforms field is required, always include it
         if self.transforms:
             result["transforms"] = [
                 {"action": t.action, "value": t.value}
                 for t in self.transforms
             ]
+        else:
+            result["transforms"] = [{"action": "base64url", "value": ""}]
 
         return result
 
@@ -55,11 +65,14 @@ class HTTPXServer:
     def to_dict(self) -> dict[str, Any]:
         result: dict[str, Any] = {"headers": self.headers}
 
+        # Transforms field is required, always include it
         if self.transforms:
             result["transforms"] = [
                 {"action": t.action, "value": t.value}
                 for t in self.transforms
             ]
+        else:
+            result["transforms"] = [{"action": "base64url", "value": ""}]
 
         return result
 
