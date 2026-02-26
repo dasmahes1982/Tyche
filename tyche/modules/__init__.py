@@ -1,6 +1,6 @@
-from tyche_cli.modules.burp_parser import parse_burpsuite_request, BurpsuiteRequestParser, HTTPRequest
-from tyche_cli.modules.toml_converter import convert_toml_to_json, TOMLConverter
-from tyche_cli.modules.profile_generator import (
+from tyche.modules.burp_parser import parse_burpsuite_request, BurpsuiteRequestParser, HTTPRequest
+from tyche.modules.toml_converter import convert_toml_to_json, TOMLConverter
+from tyche.modules.profile_generator import (
     generate_profile_from_request,
     HTTPXProfileGenerator,
     HTTPXProfile,
@@ -10,9 +10,9 @@ from tyche_cli.modules.profile_generator import (
     HTTPXMessage,
     HTTPXTransform
 )
-from tyche_cli.modules.malleable_parser import parse_malleable_profile, convert_malleable_file, MalleableC2Parser
-from tyche_cli.modules.profile_linter import lint_profile, lint_profile_file, HTTPXProfileLinter, LintResult, LintIssue, Severity
-from tyche_cli.modules.rewrite_generator import generate_rewrite_rules, RewriteRuleGenerator, RewriteConfig
+from tyche.modules.malleable_parser import parse_malleable_profile, convert_malleable_file, MalleableC2Parser
+from tyche.modules.profile_linter import lint_profile, lint_profile_file, HTTPXProfileLinter, LintResult, LintIssue, Severity
+from tyche.modules.rewrite_generator import generate_rewrite_rules, RewriteRuleGenerator, RewriteConfig
 
 __all__ = [
     'parse_burpsuite_request',
